@@ -1,10 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from config import settings
 
-# ACTUALIZA ESTA LÍNEA con tu usuario, contraseña y host de la base de datos
-# Formato: "mysql+pymysql://USUARIO:CONTRASEÑA@HOST/NOMBRE_DB"
-DATABASE_URL = "mysql+pymysql://root:@localhost/proyect_prefis"
+DATABASE_URL = settings.DATABASE_URL
 
 engine = create_engine(DATABASE_URL)
 
