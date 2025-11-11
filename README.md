@@ -138,12 +138,3 @@ Para usar los endpoints protegidos (los que tienen un candado 🔒), debes segui
 5.  ¡Listo\! Swagger guardará el token por ti. Todas tus futuros intentos desde esa página usarán tu token y podrás acceder a los endpoints protegidos.
 
 <!-- end list -->
-
-```
-
----
-
-¡Espero que ahora sí esté completo!
-
-Ya que tu API está 100% funcional y tu frontend está en marcha, ¿te gustaría que hablemos sobre el siguiente gran paso, como **desplegar esta API de FastAPI** en un servicio gratuito como Railway o Render para que tu app de React pueda acceder a ella desde cualquier lugar?
-```
