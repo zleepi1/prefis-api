@@ -14,7 +14,7 @@ from database import SessionLocal, engine
 
 # Crea las tablas en la base de datos (solo si no existen)
 # En producción, podrías usar una herramienta de migración como Alembic
-models.Base.metadata.create_all(bind=engine)
+#models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Proyect_PREFIS API",
@@ -28,6 +28,7 @@ app = FastAPI(
 origins = [
     "http://localhost",
     "http://localhost:5173",  # El origen de tu app de React
+    "0.0.0.0"
 ]
 
 # 3. AÑADE EL MIDDLEWARE A TU APP
