@@ -8,7 +8,7 @@ import datetime
 # --- CRUD de USUARIOS ---
 
 
-def get_user_by_email(db: Session, email: str): 
+def get_user_by_email(db: Session, email: str):
     return db.query(models.Usuario).filter(models.Usuario.email == email).first()
 
 
@@ -81,7 +81,10 @@ def create_registro_calculo(
 def get_calculos_by_user(db: Session, usuario_id: int, skip: int = 0, limit: int = 100):
     return (
         db.query(models.RegistroCalculo)
-        .filter(models.RegistroCalculo.usuario_id == usuario_id)
+        .filter(
+            models.RegistroCalculo.usuario_id == usuario_id,
+            models.RegistroCalculo.esta_activo == True,
+        )
         .order_by(models.RegistroCalculo.fecha_calculo.desc())
         .offset(skip)
         .limit(limit)
@@ -104,12 +107,16 @@ def get_calculo_by_id_and_owner(db: Session, registro_id: int, usuario_id: int):
     )
 
 
-def delete_calculo(db: Session, db_calculo: models.RegistroCalculo):
+# Renombramos la función y cambiamos su lógica
+def deactivate_calculo(db: Session, db_calculo: models.RegistroCalculo):
     """
-    Elimina un registro de cálculo de la base de datos.
+    Desactiva un registro de cálculo (Borrado Lógico)
+    en lugar de borrarlo permanentemente.
     """
-    db.delete(db_calculo)
+    db_calculo.esta_activo = False
+    db.add(db_calculo)  # Añade el objeto actualizado a la sesión
     db.commit()
+    db.refresh(db_calculo)
     return db_calculo
 
 

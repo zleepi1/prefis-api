@@ -14,14 +14,12 @@ from database import SessionLocal, engine
 
 # Crea las tablas en la base de datos (solo si no existen)
 # En producción, podrías usar una herramienta de migración como Alembic
-#models.Base.metadata.create_all(bind=engine)
+# models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Proyect_PREFIS API",
     description="API para gestionar modelos, cálculos y usuarios del proyecto PREFIS.",
     version="1.0.0",
-    # Opcional: Configura CORS si tu app web está en un dominio diferente
-    # from fastapi.middleware.cors import CORSMiddleware
 )
 
 # 2. DEFINE LOS ORÍGENES PERMITIDOS
@@ -211,29 +209,26 @@ def read_my_calculos(
     )
 
 
-@app.delete("/calculos/{registro_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_calculo_propio(
+@app.put("/calculos/{registro_id}/deactivate", status_code=status.HTTP_204_NO_CONTENT)
+def deactivate_calculo_propio(
     registro_id: int,
     db: Session = Depends(get_db),
     current_user: schemas.Usuario = Depends(security.get_current_active_user),
 ):
     """
-    Elimina un registro de cálculo específico.
-    Solo el usuario propietario puede eliminar su cálculo.
+    Desactiva (borrado lógico) un registro de cálculo.
+    Solo el propietario puede desactivar su cálculo.
     """
-    # Primero, buscamos el cálculo y nos aseguramos de que le pertenece al usuario
     db_calculo = crud.get_calculo_by_id_and_owner(
         db=db, registro_id=registro_id, usuario_id=current_user.usuario_id
     )
 
-    # Si no se encuentra (o no le pertenece), devolvemos un 404
     if db_calculo is None:
         raise HTTPException(status_code=404, detail="Registro de cálculo no encontrado")
 
-    # Si se encuentra y le pertenece, lo borramos
-    crud.delete_calculo(db=db, db_calculo=db_calculo)
+    # ¡Llama a la nueva función de CRUD!
+    crud.deactivate_calculo(db=db, db_calculo=db_calculo)
 
-    # Devolvemos un 204 No Content, que es el estándar para un DELETE exitoso
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
