@@ -98,6 +98,21 @@ def read_users_me(
     return current_user
 
 
+@app.patch("/usuarios/me/", response_model=schemas.Usuario)
+def update_my_name(
+    user_update: schemas.UserUpdate,  # <-- El nuevo schema, espera: {"nombre": "Nuevo Nombre"}
+    db: Session = Depends(get_db),
+    current_user: schemas.Usuario = Depends(security.get_current_active_user),
+):
+    """
+    Permite al usuario autenticado actualizar su propio nombre.
+    """
+    updated_user = crud.update_user_name(
+        db=db, user=current_user, new_name=user_update.nombre
+    )
+    return updated_user
+
+
 # --- 2. ENDPOINTS DE MODELO_ANALISIS ---
 
 

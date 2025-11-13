@@ -83,6 +83,10 @@ class Usuario(UsuarioBase):
     class Config:
         orm_mode = True
 
+# Esquema para cambiar el nombre de un usuario
+class UserUpdate(BaseModel):
+    nombre: str
+
 
 # --- Esquemas para REGISTRO_CALCULO ---
 # Esquema para crear un nuevo registro
