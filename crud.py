@@ -33,7 +33,7 @@ def update_user_name(
     Actualiza el nombre de un objeto de usuario en la BD.
     """
     user.nombre = new_name  # Actualiza el campo en el objeto del modelo
-    db.add(user)  # Añade el objeto actualizado a la sesión
+    db.merge(user)  # Añade el objeto actualizado a la sesión
     db.commit()  # Confirma (commit) el cambio
     db.refresh(user)  # Refresca el objeto con los datos de la BD
     return user
