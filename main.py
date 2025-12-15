@@ -26,7 +26,9 @@ app = FastAPI(
 origins = [
     "http://localhost",
     "http://localhost:5173",  # El origen de tu app de React
-    "0.0.0.0"
+    "0.0.0.0",
+    "https://prefiswebapp.vercel.app",
+    "https://prefiswebapp.vercel.app/",
 ]
 
 # 3. AÑADE EL MIDDLEWARE A TU APP
